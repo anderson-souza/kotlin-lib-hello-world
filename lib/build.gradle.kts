@@ -6,10 +6,10 @@ plugins {
     `maven-publish`
 }
 
+group = "com.aps"
 version = "1.0.0"
 
 repositories {
-    // Use Maven Central for resolving dependencies.
     mavenCentral()
 }
 
@@ -29,7 +29,7 @@ dependencies {
 
 tasks.jar {
     manifest {
-        attributes(mapOf("Implementation-Title" to project.name,
+        attributes(mapOf("Implementation-Title" to rootProject.name,
             "Implementation-Version" to project.version))
     }
 }
@@ -42,7 +42,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/OWNER/REPOSITORY")
+            url = uri("https://maven.pkg.github.com/anderson-souza/kotlin-lib-hello-world")
             credentials {
                 username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
                 password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
@@ -52,6 +52,9 @@ publishing {
     publications {
         register<MavenPublication>("gpr") {
             from(components["java"])
+            groupId = project.group.toString()
+            artifactId = "hello-world-lib"
+            version = project.version.toString()
         }
     }
 }
